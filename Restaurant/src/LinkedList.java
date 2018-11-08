@@ -56,7 +56,6 @@ public class LinkedList {
 		}
 		Link iterator = first;
 		while(iterator.next != null) iterator = iterator.next;
-
 		iterator.next = insert;
 	}
 	
@@ -107,7 +106,7 @@ public class LinkedList {
 		String toDisplay = new String();
 		int count=1;
 		while(iterator != null) {
-			toDisplay += "#" + count + ": " + iterator.getNode() + "\n";
+			toDisplay += "#" + count + ": " + iterator.toString() + "\n";
 			iterator = iterator.next;
 			count++;
 		}
@@ -140,6 +139,7 @@ public class LinkedList {
 	public boolean isEmpty() {
 		return(first==null);
 	}
+
 }
 
 class Link {
@@ -164,5 +164,12 @@ class Link {
 	
 	public FoodItem getNode() {
 		return data;
+	}
+
+	@Override
+	public String toString() {
+		if(data !=null) {
+			return data.name;
+		} return "null";
 	}
 }

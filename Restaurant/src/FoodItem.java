@@ -15,6 +15,7 @@ public class FoodItem extends Link {
 		this.name = "";
 		this.timeToPrepare = 0;
 		this.cost = 0;
+		this.data = null;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 public class Restauraunt {
 	public static void main(String[] args) throws InterruptedException {
 		Queue serviceLine = new Queue();
+		Queue orderLine = new Queue();
 		Menu menu = buildMenu();
 		menu.displayList();
 		Service service = new Service();
@@ -12,21 +13,25 @@ public class Restauraunt {
 		boolean open = true;
 		while(open) {
 			TimeUnit.SECONDS.sleep(1);
-			if((rng.nextInt(10) + 1) % 10 == 0) { // random chance for customer 
+			if((rng.nextInt(2) + 1) % 2 == 0) { // random chance for customer 
 				System.out.println("A customer walks in");
 				Customer c = new Customer();
 				serviceLine.enqueue(c);
 				serviceLine.peek();
 				System.out.printf("There is now %d customer(s) in line\n", serviceLine.size());
 			}
-			if((rng.nextInt(10) + 1) % 10 == 0) { // handling of queue(rng is temporary)
+			if((rng.nextInt(2) + 1) % 2 == 0) { // handling of queue(rng is temporary)
 				Customer c = serviceLine.peek();
 				if(c==null) {
 					System.out.printf("Staff is ready but no one is waiting\n");
 				} else {
-					c.GenerateOrder();
+					c.GenerateOrder(menu);
 					System.out.printf("Customer is ready to order:\n");
-					c.order.displayList();
+					//c.order.displayList();
+					// service customer
+					serviceLine.dequeue();
+					orderLine.enqueue(c);
+					System.out.printf("Customer has been serviced.\n");
 				}
 				
 			}
