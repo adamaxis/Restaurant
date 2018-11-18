@@ -64,4 +64,21 @@ public class Service {
 			}
 		}
 	}
+	
+	Queue doJobs(Queue orderLine) {
+		for(int i=0; i < orderLine.size(); i++) {
+			Customer c = orderLine.peek(i);
+			if(c != null) {
+				Link iterator = c.order.first;
+				FoodItem fi;
+				while(iterator != null) {
+					fi = iterator.data;
+					// order checking
+					
+					iterator = iterator.next;
+				}
+			}
+		}
+		return orderLine;
+	}
 }

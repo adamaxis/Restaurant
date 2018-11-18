@@ -85,6 +85,12 @@ public class Queue {
 		else return s[sp];
 	}
 	
+	// peek() outputs first item in queue
+	public Customer peek(int custNumber) {
+		if(isEmpty() || size() < custNumber) return null;
+		else return s[sp+custNumber % QUEUE_SIZE];
+	}
+	
 	// size()
 	/**
 	 * 

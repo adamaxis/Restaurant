@@ -12,15 +12,13 @@ public class Restauraunt {
 		Random rng = new Random();
 		boolean open = true;
 		while(open) {
-			TimeUnit.SECONDS.sleep(1);
-			if((rng.nextInt(2) + 1) % 2 == 0) { // random chance for customer 
+			TimeUnit.MILLISECONDS.sleep(500);
+			if((rng.nextInt(5) + 1) % 5 == 0) { // random chance for customer 
 				System.out.println("A customer walks in");
 				Customer c = new Customer();
 				serviceLine.enqueue(c);
-				serviceLine.peek();
 				System.out.printf("There is now %d customer(s) in line\n", serviceLine.size());
-			}
-			if((rng.nextInt(2) + 1) % 2 == 0) { // handling of queue(rng is temporary)
+			} else if((rng.nextInt(5) + 1) % 5 == 0) { // handling of queue(rng is temporary)
 				Customer c = serviceLine.peek();
 				if(c==null) {
 					System.out.printf("Staff is ready but no one is waiting\n");
@@ -29,12 +27,11 @@ public class Restauraunt {
 					System.out.printf("Customer is ready to order:\n");
 					//c.order.displayList();
 					// service customer
-					serviceLine.dequeue();
-					orderLine.enqueue(c);
+					orderLine.enqueue(serviceLine.dequeue());
 					System.out.printf("Customer has been serviced.\n");
 				}
-				
 			}
+			orderLine = service.doJobs(orderLine);
 		}
 		
 		
@@ -44,31 +41,31 @@ public class Restauraunt {
 		Menu menu = new Menu();
 		FoodItem fi = new FoodItem("Hamburger", 120, 1.00);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Double Cheeseburger", 240, 2.50);
+		fi = new FoodItem("Double Cheeseburger", 150, 2.50);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Chicken Sandwich", 180, 2.00);
+		fi = new FoodItem("Chicken Sandwich", 120, 2.00);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Large Drink", 120, 1.50);
+		fi = new FoodItem("Large Drink", 60, 1.50);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Medium Drink", 120, 1.25);
+		fi = new FoodItem("Medium Drink", 60, 1.25);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Small Drink", 120, 1.00);
+		fi = new FoodItem("Small Drink", 60, 1.00);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Chocolate Shake", 120, 3.99);
+		fi = new FoodItem("Chocolate Shake", 60, 3.99);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Vanilla Shake", 120, 3.99);
+		fi = new FoodItem("Vanilla Shake", 60, 3.99);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Large Fries", 120, 1.75);
+		fi = new FoodItem("Large Fries", 100, 1.75);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Medium Fries", 120, 1.50);
+		fi = new FoodItem("Medium Fries", 100, 1.50);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Small Fries", 120, 1.00);
+		fi = new FoodItem("Small Fries", 100, 1.00);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Value Meal", 120, 4.99);
+		fi = new FoodItem("Value Meal", 150, 4.99);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("X-tra Meal", 120, 6.99);
+		fi = new FoodItem("X-tra Meal", 150, 6.99);
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Apple Pie", 120, 1.50);
+		fi = new FoodItem("Apple Pie", 60, 1.50);
 		menu.insertMenuItem(fi);
 		return menu;
 	}
