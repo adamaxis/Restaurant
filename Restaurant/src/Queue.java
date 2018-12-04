@@ -63,6 +63,18 @@ public class Queue {
 		return dequeued;
 	}
 	
+	public Customer dequeue(int at) {
+		if(isEmpty()) {
+			System.out.println("Error: queue empty! dequeue() operation failed!");
+			return null;
+		}
+		int tracker=(sp+at) % QUEUE_SIZE;
+		Customer dequeued = s[tracker];
+		sp++;
+		sz--;
+		return dequeued;
+	}
+	
 	// print() outputs total queue to user
 	public void print() {
 		if(isEmpty()) { 
@@ -82,7 +94,7 @@ public class Queue {
 	// peek() outputs first item in queue
 	public Customer peek() {
 		if(isEmpty()) return null;
-		else return s[sp];
+		else return s[sp % QUEUE_SIZE];
 	}
 	
 	// peek() outputs first item in queue

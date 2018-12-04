@@ -26,7 +26,15 @@ public class LinkedList {
 	 * @return (Int) returns number of links on linked list
 	 */
 	public int countNodes() {
-		return size;
+		if(isEmpty()) return 0;
+		
+		Link iterator = first;
+		int i=1;
+		while(iterator.next != null) {
+			i++;
+			iterator = iterator.next;
+		}
+		return i;
 	}
 	
 	/**
@@ -35,8 +43,9 @@ public class LinkedList {
 	 */
 	public boolean insert(Link insert){
 		if(isEmpty()) {
+			insert.prev = null;
+			insert.next = null;
 			first = insert;
-			System.out.println("Link '" + insert.data.getName() + "'inserted successfully");
 			size++;
 			return true;
 		}
@@ -45,7 +54,8 @@ public class LinkedList {
 			iterator = iterator.next;
 		}
 		iterator.next = insert;
-		System.out.println("Link '" + insert.data.getName() + "'inserted successfully");
+		insert.prev = iterator;
+		insert.next = null;
 		size++;
 		return true;
 	}
@@ -64,7 +74,8 @@ public class LinkedList {
 		}
 		Link oldPrev = oldLink.prev;
 		Link oldNext = oldLink.next;
-		System.out.println("Key '" + oldLink.getData().getName() + "' deleted");
+		//if(oldLink.data instanceof FoodItem) System.out.println("Key '" + ((FoodItem) oldLink.getData()).getName() + "' deleted");
+		//else if(oldLink.data instanceof Customer) System.out.println("Key '" + ((Customer) oldLink.getData()) + "' deleted");
 		
 		if(oldLink == first) {	// step forward
 			first = first.next;
@@ -74,6 +85,40 @@ public class LinkedList {
 			if(oldPrev != null) oldPrev.next = oldNext;
 			if(oldNext != null) oldNext.prev = oldPrev;
 		}
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @param key (String) Key to delete
+	 * @return (boolean) true if successful, false if key not found
+	 */
+	public boolean delete(Link key){
+
+		Link oldLink = this.first;
+		while(oldLink != null) {
+			if(oldLink == key) break;
+			oldLink = oldLink.next;
+		}
+		if(oldLink==null || key==null || isEmpty()) {
+			System.out.println("Error during deletion: Key '" + key + "' not found.");
+			return false;
+		}
+		
+		Link oldPrev = oldLink.prev;
+		Link oldNext = oldLink.next;
+		System.out.printf("OldLink=%s | Key=%s\n", oldLink, key);
+		System.out.println("Key '" + (oldLink) + "' deleted");
+		System.out.println(oldPrev + "<-" + oldLink + "->" + oldNext);
+		if(oldLink == first) {	// step forward
+			first = first.next;
+			if(first != null) first.prev = null;
+			return true;
+		} else {
+			if(oldPrev != null) oldPrev.next = oldNext;
+			if(oldNext != null) oldNext.prev = oldPrev;
+		}
+		oldLink = null;
 		return true;
 	}
 	
@@ -90,7 +135,8 @@ public class LinkedList {
 		String toDisplay = new String();
 		int count=1;
 		while(iterator != null) {
-			toDisplay += "#" + count + ": " + iterator.getData().getName() + "\n";
+			if(iterator.data instanceof FoodItem) toDisplay += "#" + count + ": " + ((FoodItem) iterator.getData()).getName() + "\n";
+			else if(iterator.data instanceof Customer) toDisplay += "#" + count + ": " + ((Customer) iterator.getData()) + "\n";
 			iterator = iterator.next;
 			count++;
 		}
@@ -108,7 +154,8 @@ public class LinkedList {
 		if(isEmpty()) return null;
 		Link iterator = first;
 		while(iterator != null) {
-			if(iterator.getData().getName().equalsIgnoreCase(toFind)) return iterator;
+			if(iterator.data instanceof FoodItem) if(((FoodItem)iterator.getData()).getName().equalsIgnoreCase(toFind)) return iterator;
+			else if(iterator.data instanceof Customer) System.out.println("Search not implemented for Customers");
 			iterator = iterator.next;
 		}
 		return null;
@@ -141,7 +188,7 @@ public class LinkedList {
 
 class Link {
 	// link data
-	public FoodItem data;
+	public Object data;
 	public Link next;
 	public Link prev;
 	
@@ -150,7 +197,7 @@ class Link {
 	 * 
 	 * @param elem to link to list
 	 */
-	public Link(FoodItem data) {
+	public Link(Object data) {
 		this.data = data;
 		next = null;
 		prev = null;
@@ -169,14 +216,15 @@ class Link {
 		prev = null;
 	}
 	
-	public FoodItem getData() {
+	public Object getData() {
 		return data;
 	}
 	
 	@Override
 	public String toString() {
 		if(data !=null) {
-			return data.name;
+			if(data instanceof FoodItem) return ((FoodItem) data).name;
+			else if(data instanceof Customer) return data.toString();
 		} return null;
 	}
 	

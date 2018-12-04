@@ -2,9 +2,12 @@ import java.util.Random;
 
 public class Customer {
 	LinkedList order;
-	boolean orderReceived;
+	long orderNumber;
+	boolean orderDone;
+	static int orderCounter=1000000000;
 	
 	Customer() {
+		orderNumber = 0;
 		order = new LinkedList();
 	}
 		
@@ -19,8 +22,14 @@ public class Customer {
 				order.insert(l);
 			}
 			else System.out.println("Error generating order. Item#" + rndItem);
-			order.displayList();
 		}
+		this.orderNumber = orderCounter++;
+	}
+	
+	void ShowOrder () {
+		System.out.printf("Order #: %d\n", this.orderNumber);
+		order.displayList();
+		
 	}
 		
 }

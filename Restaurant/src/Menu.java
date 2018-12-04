@@ -16,7 +16,7 @@ public class Menu extends LinkedList {
 		// need to make a copy
 		if(isEmpty()) return null;
 		
-		return getItem(itemNum).data;
+		return (FoodItem) getItem(itemNum).data;
 	}
 	
 }

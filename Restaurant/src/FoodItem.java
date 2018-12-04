@@ -1,25 +1,29 @@
-
 public class FoodItem {
 	String name;
-	double timeToPrepare;
 	int type=0;
-	int prepState=0;
-	final int TYPE_DRINK = 1;
-	final int TYPE_BURGER = 2;
-	final int TYPE_SHAKE = 3;
-	final int TYPE_PIE = 4;
-	final int TYPE_MEAL = 5;
+	int prepState;
+	long prepTime;
+	long startTime;
+	final static int TYPE_GRILL = 1;
+	final static int TYPE_FRYER = 2;
+	final static int TYPE_DRINK = 3;
+	final static int TYPE_SHAKE = 4;
+	final static int TYPE_OVEN = 5;
+	final static int TYPE_MEAL = 6;
 	double cost;
 	
-	FoodItem(String name, double timeToPrepare, double cost) {
+	FoodItem(String name, long prepTime, double cost, int type) {
+		this.prepState = Service.FOOD_STATE_FRESH;
 		this.name = name;
-		this.timeToPrepare = timeToPrepare;
+		this.prepTime = prepTime;
 		this.cost = cost;
+		this.type = type;
+		this.startTime = 0;
 	}
 
 	FoodItem() {
 		this.name = "";
-		this.timeToPrepare = 0;
+		this.prepTime = 0;
 		this.cost = 0;
 	}
 	
