@@ -54,7 +54,7 @@ public class MyGUI extends Thread {
 		private static final long serialVersionUID = 1L;
 		// initialize interface
 		static JTextField txtSpeed;
-		static JLabel lblProfit;
+		static JLabel lblProfit, lblSpeed;
 		static JButton btnOrder, btnSpeed, btnOpen;
 		static TextArea txtGrill, txtFryer, txtOven, txtDrink, txtShake, txtService, txtCashier;
 		static JPanel panelInterface, panelGrill, panelFryer, panelOven, panelDrink, panelShake, panelService, panelCashier;
@@ -97,6 +97,7 @@ public class MyGUI extends Thread {
 			
 			// set labels
 			lblProfit = new JLabel(String.format("Profit $%.2f", Restaurant.profit));
+			lblSpeed = new JLabel(String.format("Current speed: %dx", Restaurant.speedMultiplier));
 			txtSpeed = new JTextField(Integer.toString(Restaurant.speedMultiplier), 2);
 			
 			// insert panels into panels
@@ -110,6 +111,7 @@ public class MyGUI extends Thread {
 			panelInterface.add(btnOpen);
 			panelInterface.add(btnSpeed);
 			panelInterface.add(txtSpeed);
+			panelInterface.add(lblSpeed);
 			panelInterface.add(btnOrder);
 			panelInterface.add(lblProfit);
 			add(panelInterface);
@@ -230,8 +232,9 @@ public class MyGUI extends Thread {
 				ta.setText(ta.getText() + message);
 				ta.setCaretPosition(ta.getText().length()-1);
 				
-				// update profit label
-				GUI.lblProfit.setText(String.format("Profit $%.2f", Restaurant.profit));
+				// update labels
+				lblProfit.setText(String.format("Profit $%.2f", Restaurant.profit));
+				lblSpeed.setText(String.format("Current speed: %dx", Restaurant.speedMultiplier));
 			} else System.out.printf(message);
 		}
 	}
