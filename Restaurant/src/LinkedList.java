@@ -1,11 +1,12 @@
 /**
- * @author Daniel Draper
+ * 
+ * @author The Dude
+ *
  */
 
 public class LinkedList {
 	// private variables
-	public Link first;
-	int size=0;
+	private Link first;
 
 	// constructors
 	/**
@@ -20,6 +21,16 @@ public class LinkedList {
 		first=null;
 	}
 	
+	
+	
+	public Link getFirst() {
+		return first;
+	}
+
+	public void setFirst(Link first) {
+		this.first = first;
+	}
+
 	// countNodes()
 	/**
 	 * 
@@ -46,7 +57,6 @@ public class LinkedList {
 			insert.prev = null;
 			insert.next = null;
 			first = insert;
-			size++;
 			return true;
 		}
 		Link iterator = first;
@@ -56,7 +66,6 @@ public class LinkedList {
 		iterator.next = insert;
 		insert.prev = iterator;
 		insert.next = null;
-		size++;
 		return true;
 	}
 	
@@ -74,8 +83,6 @@ public class LinkedList {
 		}
 		Link oldPrev = oldLink.prev;
 		Link oldNext = oldLink.next;
-		//if(oldLink.data instanceof FoodItem) System.out.println("Key '" + ((FoodItem) oldLink.getData()).getName() + "' deleted");
-		//else if(oldLink.data instanceof Customer) System.out.println("Key '" + ((Customer) oldLink.getData()) + "' deleted");
 		
 		if(oldLink == first) {	// step forward
 			first = first.next;
@@ -94,7 +101,6 @@ public class LinkedList {
 	 * @return (boolean) true if successful, false if key not found
 	 */
 	public boolean delete(Link key){
-
 		Link oldLink = this.first;
 		while(oldLink != null) {
 			if(oldLink == key) break;
@@ -107,9 +113,6 @@ public class LinkedList {
 		
 		Link oldPrev = oldLink.prev;
 		Link oldNext = oldLink.next;
-		System.out.printf("OldLink=%s | Key=%s\n", oldLink, key);
-		System.out.println("Key '" + (oldLink) + "' deleted");
-		System.out.println(oldPrev + "<-" + oldLink + "->" + oldNext);
 		if(oldLink == first) {	// step forward
 			first = first.next;
 			if(first != null) first.prev = null;
@@ -118,30 +121,37 @@ public class LinkedList {
 			if(oldPrev != null) oldPrev.next = oldNext;
 			if(oldNext != null) oldNext.prev = oldPrev;
 		}
+		oldLink.setData(null);
 		oldLink = null;
 		return true;
 	}
 	
-
 	
-	
-	// displayList() outputs object information to user via toString()
-	public void displayList() {
+	// displayList() returns a string of object information via toString()
+	/**
+	 * 
+	 * @return (String) list of items via toString()
+	 */
+	public String printList() {
 		if(isEmpty()) {
 			System.out.println("Linked list is empty.");
-			return;
+			return "";
 		}
 		Link iterator = first;
 		String toDisplay = new String();
 		int count=1;
 		while(iterator != null) {
-			if(iterator.data instanceof FoodItem) toDisplay += "#" + count + ": " + ((FoodItem) iterator.getData()).getName() + "\n";
-			else if(iterator.data instanceof Customer) toDisplay += "#" + count + ": " + ((Customer) iterator.getData()) + "\n";
+			if(iterator.getData() instanceof FoodItem) toDisplay += "#" + count + ": " + ((FoodItem) iterator.getData()).getName() + "\n";
+			else if(iterator.getData() instanceof Customer) toDisplay += "#" + count + ": " + ((Customer) iterator.getData()) + "\n";
 			iterator = iterator.next;
 			count++;
 		}
-		toDisplay += "Number of nodes: " + countNodes() + "\n";
-		System.out.println(toDisplay);
+		return toDisplay;
+	}
+	
+	// displayList() - displays LinkedList contents to user
+	public void displayList() {
+		System.out.println(printList());
 	}
 	
 	// search() searches links - returns null when not found
@@ -154,13 +164,18 @@ public class LinkedList {
 		if(isEmpty()) return null;
 		Link iterator = first;
 		while(iterator != null) {
-			if(iterator.data instanceof FoodItem) if(((FoodItem)iterator.getData()).getName().equalsIgnoreCase(toFind)) return iterator;
-			else if(iterator.data instanceof Customer) System.out.println("Search not implemented for Customers");
+			if(iterator.getData() instanceof FoodItem) if(((FoodItem)iterator.getData()).getName().equalsIgnoreCase(toFind)) return iterator;
+			else if(iterator.getData() instanceof Customer) System.out.println("Search not implemented for Customers");
 			iterator = iterator.next;
 		}
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param itemNum (int) number to return in list
+	 * @return (Link) link of item referenced by number
+	 */
 	public Link getItem(int itemNum) {
 		if(isEmpty() || (countNodes() < itemNum)) {
 			System.out.println("Null");
@@ -183,19 +198,18 @@ public class LinkedList {
 	public boolean isEmpty() {
 		return(first==null);
 	}
-
 }
 
 class Link {
 	// link data
-	public Object data;
+	private Object data;
 	public Link next;
 	public Link prev;
 	
 	// constructors
 	/**
 	 * 
-	 * @param elem to link to list
+	 * @param data of Link
 	 */
 	public Link(Object data) {
 		this.data = data;
@@ -209,9 +223,13 @@ class Link {
 		prev = null;
 	}
 	
-	
-	Link(Link l) {
-		this.data = l.data;
+	// copy data from link to link
+	/**
+	 * 
+	 * @param l (Link) link to copy data from
+	 */
+	Link(Link copy) {
+		this.data = copy.data;
 		next= null;
 		prev = null;
 	}
@@ -219,7 +237,11 @@ class Link {
 	public Object getData() {
 		return data;
 	}
-	
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
 	@Override
 	public String toString() {
 		if(data !=null) {

@@ -1,12 +1,12 @@
 /**
- * @author Daniel Draper
+ * 
+ * @author The Dude
+ *
  */
-
-
 public class Queue {
-	// static private variables
+	// static private members
 	final private int QUEUE_SIZE=100;
-	// private variables
+	// private members
 	private Customer[] s; // queue
 	private int sz; // size
 	private int sp; // pos
@@ -63,17 +63,6 @@ public class Queue {
 		return dequeued;
 	}
 	
-	public Customer dequeue(int at) {
-		if(isEmpty()) {
-			System.out.println("Error: queue empty! dequeue() operation failed!");
-			return null;
-		}
-		int tracker=(sp+at) % QUEUE_SIZE;
-		Customer dequeued = s[tracker];
-		sp++;
-		sz--;
-		return dequeued;
-	}
 	
 	// print() outputs total queue to user
 	public void print() {
@@ -92,17 +81,16 @@ public class Queue {
 	}
 	
 	// peek() outputs first item in queue
+	/**
+	 * 
+	 * @return (Customer) first item in queue
+	 */
 	public Customer peek() {
 		if(isEmpty()) return null;
 		else return s[sp % QUEUE_SIZE];
 	}
 	
-	// peek() outputs first item in queue
-	public Customer peek(int custNumber) {
-		if(isEmpty() || size() < custNumber) return null;
-		else return s[sp+custNumber % QUEUE_SIZE];
-	}
-	
+
 	// size()
 	/**
 	 * 

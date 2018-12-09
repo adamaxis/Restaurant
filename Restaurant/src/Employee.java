@@ -1,7 +1,19 @@
+/**
+ * 
+ * @author The Dude
+ *
+ */
 public class Employee {
-	int num;
-	int job;
+	// private members
+	private int num;
+	private int job;
 	
+	// constructors
+	/**
+	 * 
+	 * @param num (int) Number assigned to employee
+	 * @param job (int) Job employee should do
+	 */
 	Employee(int num, int job) {
 		this.num = num;
 		this.job = job;
@@ -16,4 +28,23 @@ public class Employee {
 		this.num = 0;
 		this.job = 0;
 	}
+
+	// getters and setters
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	public int getJob() {
+		return job;
+	}
+
+	public void setJob(int job) {
+		this.job = job;
+	}
+	
+	
 }
