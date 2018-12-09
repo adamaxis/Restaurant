@@ -1,16 +1,13 @@
 /**
- * 
+ * LinkedList - data structure for a number of applications
  * @author The Dude
- *
  */
-
 public class LinkedList {
 	// private variables
 	private Link first;
 
-	// constructors
 	/**
-	 * 
+	 * constructors
 	 * @param elems (Link) link to initialize LinkedList with
 	 */
 	public LinkedList(Link elem) {
@@ -22,7 +19,9 @@ public class LinkedList {
 	}
 	
 	
-	
+	/**
+	 * Getters and setters
+	 */
 	public Link getFirst() {
 		return first;
 	}
@@ -31,9 +30,8 @@ public class LinkedList {
 		this.first = first;
 	}
 
-	// countNodes()
 	/**
-	 * 
+	 * countNodes() - returns number of nodes
 	 * @return (Int) returns number of links on linked list
 	 */
 	public int countNodes() {

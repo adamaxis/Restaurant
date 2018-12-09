@@ -1,12 +1,11 @@
+// imports
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 /**
- * 
+ * Restaurant - handles the main loop of the program and contains
+ * most of the important data structures, as well as main()
  * @author The Dude
- *
  */
-// Restaurant - handles the main loop of the program and contains
-// most of the important data structures, as well as main()
 public class Restaurant {
 	// speed settings, tied to sleep(). higher multiplier = faster (speedVar / speedMultiplier)
 	static int speedVar = 500;
@@ -70,10 +69,9 @@ public class Restaurant {
 						MyGUI.GUI.signal(Service.SERVICE, String.format("Staff is ready but no one is waiting.\n"));
 					} else {
 						// generate random customer order
-						c.GenerateOrder(menu);
+						if(c.orderNumber == 0) c.GenerateOrder(menu);
 						// print it out
 						c.ShowOrder();
-						
 						// service customer
 						orderLine.insert(new Link (serviceLine.dequeue()));
 					}
@@ -91,6 +89,8 @@ public class Restaurant {
 							toString += c.PrintOrder();
 							toString += "Everything seems to be in order. You thank the clerk and exit.";
 							MyGUI.GUI.signal(Service.MISC, toString);
+							// re-enable order button
+							MyGUI.GUI.btnOrder.setEnabled(true);
 						} else {							// they are not
 							MyGUI.GUI.signal(Service.SERVICE, String.format("Order #%d is claimed and the customer leaves.\n", c.orderNumber));
 						}

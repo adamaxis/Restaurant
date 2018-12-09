@@ -1,7 +1,6 @@
-// FoodItem - handles different types of foods found on the the menu
-// and in orders and in the kitchen
 /**
- * 
+ * FoodItem - handles different types of foods found on the the menu
+ * and in orders and in the kitchen
  * @author The Dude
  *
  */

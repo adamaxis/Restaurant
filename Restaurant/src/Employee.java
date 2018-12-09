@@ -1,5 +1,5 @@
 /**
- * 
+ * Employee - handles employees and some basic things
  * @author The Dude
  *
  */

@@ -1,19 +1,19 @@
 /**
- * 
+ * Queue - data structure used for customer line
  * @author The Dude
  *
  */
 public class Queue {
 	// static private members
 	final private int QUEUE_SIZE=100;
+	
 	// private members
 	private Customer[] s; // queue
 	private int sz; // size
 	private int sp; // pos
 
-	// constructors
 	/**
-	 * 
+	 * constructors
 	 * @param elems (String...) list of items to initialize with queue
 	 */
 	public Queue(Customer elem) {
@@ -29,10 +29,9 @@ public class Queue {
 		sz=0;
 	}
 	
-	// enqueue()
 	/**
-	 * 
-	 * @param c (String...) list of items to add to queue
+	 * enqueue() - adds customer to end of queue
+	 * @param c (Customer) to add to queue
 	 */
 	public void enqueue(Customer c) {
 			if(isFull()) {
@@ -45,11 +44,9 @@ public class Queue {
 	}
 	
 	
-	// dequeue(num)
 	/**
-	 * 
-	 * @param num (int) Number of items to dequeue
-	 * @return (String) removes [num] number of items from the queue
+	 * dequeue() - removes first element from queue
+	 * @return (Customer) reference to removed element
 	 */
 	public Customer dequeue() {
 		if(isEmpty()) {
@@ -63,8 +60,9 @@ public class Queue {
 		return dequeued;
 	}
 	
-	
-	// print() outputs total queue to user
+	/**
+	 * print() outputs total queue to user
+	 */
 	public void print() {
 		if(isEmpty()) { 
 			System.out.println("Error: queue empty! print() operation failed!");
@@ -80,9 +78,8 @@ public class Queue {
 		System.out.println(toPrint);
 	}
 	
-	// peek() outputs first item in queue
 	/**
-	 * 
+	 * peek() outputs first item in queue
 	 * @return (Customer) first item in queue
 	 */
 	public Customer peek() {
@@ -91,18 +88,16 @@ public class Queue {
 	}
 	
 
-	// size()
 	/**
-	 * 
+	 * size()
 	 * @return (int) returns real size of queue
 	 */
 	public int size() {
 		return sz;
 	}
 	
-	// isFull()
 	/**
-	 * 
+	 * isFull()
 	 * @return (boolean) returns true when queue is full, otherwise false
 	 */
 	public boolean isFull() {
@@ -110,9 +105,8 @@ public class Queue {
 		return false;
 	}
 
-	// isEmpty()
 	/**
-	 * 
+	 * isEmpty()
 	 * @return (boolean) returns true when queue is empty, otherwise false
 	 */
 	public boolean isEmpty() {

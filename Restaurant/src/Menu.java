@@ -1,7 +1,6 @@
-// Menu - handles the restaurant's menu items and
-// all food conversions
 /**
- * 
+ * Menu - handles the restaurant's menu items and
+ * all food conversions
  * @author The Dude
  *
  */
@@ -16,7 +15,7 @@ public class Menu extends LinkedList {
 	}
 
 	/**
-	 * 
+	 * insertMenuItem(fi) - inserts FoodItem fi into restaurant menu
 	 * @param fi (FoodItem) food to insert
 	 * @return (boolean) true if successful
 	 */
@@ -28,9 +27,8 @@ public class Menu extends LinkedList {
 		return true;
 	}
 	
-	// menuToFoodItem(itemNum) - returns a copy of the foodItem from the menu
 	/**
-	 * 
+	 * menuToFoodItem(itemNum) - returns a copy of the foodItem from the menu
 	 * @param (int) itemNum # on menu to return
 	 * @return (FoodItem) # referenced by ItemNum
 	 */
@@ -42,9 +40,8 @@ public class Menu extends LinkedList {
 		return fi;
 	}
 	
-	// buildMenu() - builds restaurant menu and fills it with food
 	/**
-	 * 
+	 * buildMenu() - builds restaurant menu and fills it with food
 	 * @return (Menu) built restaurant menu
 	 */
 	static Menu buildMenu() {

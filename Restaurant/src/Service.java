@@ -1,8 +1,9 @@
+// imports
 import java.util.Date;
-// Service - handles the kitchen, jobs, and the different
-// food item states
+
 /**
- * 
+ * Service - handles the kitchen, jobs, and the different
+ * food item states
  * @author The Dude
  *
  */
@@ -16,6 +17,7 @@ public class Service {
 	final static int CASHIER = 7;
 	final static int SERVICE = 8;
 	final static int MISC = 9;
+	
 	// food states
 	final static int FOOD_STATE_FRESH = 0;
 	final static int FOOD_STATE_0 = 1;
@@ -37,7 +39,9 @@ public class Service {
 	// employee list
 	Employee[] empList;
 	
-	// constructor
+	/**
+	 * constructor
+	 */
 	public Service() {
 		numEmployees = 6;	// later, this will be random
 		atGrill=0;
@@ -53,8 +57,10 @@ public class Service {
 		}
 	}
 	
-	// assignJobs() - assigns available employees to a station to work
-	// ... unfortunately, I didn't have time to expand this
+	/**
+	 * assignJobs() - assigns available employees to a station to work
+	 *... unfortunately, I didn't have time to expand this
+	 */
 	void assignJobs() {
 		// loop to assign jobs
 		for(int i = 0; i < numEmployees; i++) {
@@ -92,7 +98,7 @@ public class Service {
 	}
 	
 	/**
-	 * 
+	 * doJobs() - handles jobs and the processing of food
 	 * @param orderList (LinkedList) List of customers waiting for their orders
 	 * @return (LinkedList) List of serviced customers
 	 */
