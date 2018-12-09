@@ -58,9 +58,9 @@ public class Menu extends LinkedList {
 		menu.insertMenuItem(fi);
 		fi = new FoodItem("Small Drink", 60, 1.00, FoodItem.TYPE_DRINK, "small drink cup");
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Chocolate Shake", 60, 3.99, FoodItem.TYPE_SHAKE, "chocolate frosty cup");
+		fi = new FoodItem("Chocolate Shake", 60, 3.99, FoodItem.TYPE_SHAKE, "frosty cup");
 		menu.insertMenuItem(fi);
-		fi = new FoodItem("Vanilla Shake", 60, 3.99, FoodItem.TYPE_SHAKE, "vanilla frosty cup");
+		fi = new FoodItem("Vanilla Shake", 60, 3.99, FoodItem.TYPE_SHAKE, "frosty cup");
 		menu.insertMenuItem(fi);
 		fi = new FoodItem("Large Fries", 100, 1.75, FoodItem.TYPE_FRYER, "fries");
 		menu.insertMenuItem(fi);

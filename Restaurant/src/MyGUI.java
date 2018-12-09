@@ -25,8 +25,8 @@ import javax.swing.event.ListSelectionListener;
  */
 public class MyGUI extends Thread {
 	// window size constants
-	final static int FRAME_WIDTH = 870;
-	final static int FRAME_HEIGHT = 500;
+	final static int FRAME_WIDTH = 1300;
+	final static int FRAME_HEIGHT = 480;
 	final static int DIALOG_WIDTH = 400;
 	final static int DIALOG_HEIGHT = 440;
 	
@@ -56,8 +56,8 @@ public class MyGUI extends Thread {
 		static JTextField txtSpeed;
 		static JLabel lblProfit;
 		static JButton btnOrder, btnSpeed, btnOpen;
-		static TextArea txtGrill, txtFryer, txtOven, txtDrink, txtShake, txtService;
-		static JPanel panelInterface, panelGrill, panelFryer, panelOven, panelDrink, panelShake, panelService;
+		static TextArea txtGrill, txtFryer, txtOven, txtDrink, txtShake, txtService, txtCashier;
+		static JPanel panelInterface, panelGrill, panelFryer, panelOven, panelDrink, panelShake, panelService, panelCashier;
 		GUI() {
 			// initialize interface controls
 			getContentPane().setLayout(new BorderLayout());
@@ -68,6 +68,7 @@ public class MyGUI extends Thread {
 			panelDrink = setJPanel("Drink fountain");
 			panelShake = setJPanel("Shake machine");
 			panelService = setJPanel("Service counter");
+			panelCashier = setJPanel("Cashier");
 	   
 			// set textareas and panels
 			txtGrill = setTextArea("");
@@ -82,6 +83,8 @@ public class MyGUI extends Thread {
 			panelShake.add(txtShake);
 			txtService = setTextArea("");
 			panelService.add(txtService);	   
+			txtCashier = setTextArea("");
+			panelCashier.add(txtCashier);
 
 			// set buttons
 			btnOrder = new JButton("Make an order");
@@ -94,7 +97,7 @@ public class MyGUI extends Thread {
 			
 			// set labels
 			lblProfit = new JLabel(String.format("Profit $%.2f", Restaurant.profit));
-			txtSpeed = new JTextField(Integer.toString(Restaurant.speedMultiplier));
+			txtSpeed = new JTextField(Integer.toString(Restaurant.speedMultiplier), 2);
 			
 			// insert panels into panels
 			panelInterface.add(panelService);
@@ -103,6 +106,7 @@ public class MyGUI extends Thread {
 			panelInterface.add(panelOven);
 			panelInterface.add(panelDrink);
 			panelInterface.add(panelShake);
+			panelInterface.add(panelCashier);
 			panelInterface.add(btnOpen);
 			panelInterface.add(btnSpeed);
 			panelInterface.add(txtSpeed);
@@ -149,8 +153,8 @@ public class MyGUI extends Thread {
 				Dialog.setVisible(true);
 			} else if(e.getSource() == btnSpeed) {
 				// check for proper input and alter speed
-				if(isNumeric(btnSpeed.getText()) && Integer.parseInt(btnSpeed.getText()) <= 50 && Integer.parseInt(btnSpeed.getText()) > 0) {
-					Restaurant.speedMultiplier = Integer.parseInt(btnSpeed.getText());
+				if(isNumeric(txtSpeed.getText()) && Integer.parseInt(txtSpeed.getText()) <= 50 && Integer.parseInt(txtSpeed.getText()) > 0) {
+					Restaurant.speedMultiplier = Integer.parseInt(txtSpeed.getText());
 				}
 			} else if(e.getSource() == btnOpen) {
 				// flip open status
@@ -211,7 +215,7 @@ public class MyGUI extends Thread {
 					ta = txtShake;
 					break;
 				case Service.CASHIER:
-					ta = txtService;
+					ta = txtCashier;
 					break;
 				case Service.SERVICE:
 					ta = txtService;
@@ -224,7 +228,7 @@ public class MyGUI extends Thread {
 			if(ta != null) {
 				// update and scroll our textbox
 				ta.setText(ta.getText() + message);
-				ta.setCaretPosition(ta.getText().length());
+				ta.setCaretPosition(ta.getText().length()-1);
 				
 				// update profit label
 				GUI.lblProfit.setText(String.format("Profit $%.2f", Restaurant.profit));
@@ -266,7 +270,7 @@ public class MyGUI extends Thread {
 			// populate jlMenu with restaurant menu
 			jlMenu = setJList();
 			DefaultListModel<String> dlm = new DefaultListModel<String>();
-			for(int i = 0; i < Restaurant.menu.countNodes(); i++){
+			for(int i = 1; i < Restaurant.menu.countNodes(); i++){
 				dlm.addElement(Restaurant.menu.menuToFoodItem(i).getName());
 			}
 			jlMenu.setModel(dlm);

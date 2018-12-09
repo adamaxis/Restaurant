@@ -71,7 +71,7 @@ public class Restaurant {
 						// generate random customer order
 						if(c.orderNumber == 0) c.GenerateOrder(menu);
 						// print it out
-						c.ShowOrder();
+						MyGUI.GUI.signal(Service.CASHIER, c.PrintOrder());
 						// service customer
 						orderLine.insert(new Link (serviceLine.dequeue()));
 					}
