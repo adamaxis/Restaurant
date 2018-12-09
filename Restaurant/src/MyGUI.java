@@ -159,7 +159,8 @@ public class MyGUI extends Thread {
 				if(Restaurant.open) btnOpen.setText("Close restaurant");
 				else btnOpen.setText("Open restaraunt");
 				if(Restaurant.yourOrder != 0 && !Restaurant.open) btnOrder.setEnabled(false);
-			}			   
+				else btnOrder.setEnabled(true);
+			}
 		}
 		/**
 		 * isNumeric(txt) - returns if a String is numeric
@@ -306,7 +307,6 @@ public class MyGUI extends Thread {
 			JButton btn = new JButton(txt);
 			btn.addActionListener(this);
 			btn.setEnabled(false);
-			btn.addActionListener(this);
 			return btn;
 		}
 		
@@ -326,28 +326,28 @@ public class MyGUI extends Thread {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == btnAdd) {
+				// check for selection
 				if (jlMenu.getSelectedIndices().length > 0) {
 		            int[] selectedIndices = jlMenu.getSelectedIndices();
-		            //append selected to list2
+		            // add jlMenu's selected items to jlOrder
 		            DefaultListModel<String> dlm = (DefaultListModel<String>) jlOrder.getModel();
 		            for (int i = 0; i < selectedIndices.length; i++) {
 		                dlm.addElement(jlMenu.getModel().getElementAt(selectedIndices[i]));
 		            }
-		            
 		        }
 				btnRemove.setEnabled(true);
 				btnConfirm.setEnabled(true);
 			} else if(e.getSource() == btnRemove) {
 				if (jlOrder.getSelectedIndices().length > 0) {
 		            int[] selectedIndices = jlOrder.getSelectedIndices();
-		            //append selected to list2
+		            // remove selected items from jlOrder
 		            DefaultListModel<String> dlm = (DefaultListModel<String>) jlOrder.getModel();
 		            for (int i = selectedIndices.length - 1; i >= 0; i--) {
 		                dlm.removeElementAt(selectedIndices[i]);
-		            }
-		            
+		            }   
 		        }
-				if(jlOrder.getSelectedIndices().length == 0) {
+				// button check
+				if(jlOrder.getModel().getSize() == 0) {
 					btnRemove.setEnabled(false);
 					btnConfirm.setEnabled(false);
 				}

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class Restaurant {
 	// speed settings, tied to sleep(). higher multiplier = faster (speedVar / speedMultiplier)
 	static int speedVar = 500;
-	static int speedMultiplier = 10;
+	static int speedMultiplier = 1;
 	
 	// speed settings tied to RNG
 	static int speedCustomer = 10;
