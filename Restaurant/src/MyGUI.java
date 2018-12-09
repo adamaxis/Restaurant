@@ -163,8 +163,18 @@ public class MyGUI extends Thread {
 				// flip open status
 				Restaurant.open = !Restaurant.open;
 				// button status checks
-				if(Restaurant.open) btnOpen.setText("Close restaurant");
-				else btnOpen.setText("Open restaraunt");
+				String strStatus;
+				if(Restaurant.open) {
+					strStatus = "The doors have opened and new customers are coming in.";
+					btnOpen.setText("Close restaurant");
+				}
+				else {
+					strStatus = "The restaurant is closing and no new customers are permitted.\n";
+					if(!Restaurant.orderLine.isEmpty()) strStatus += "The customers in line will be serviced, and then doors will be closed.\n";
+					btnOpen.setText("Open restaraunt");
+				}
+				signal(Service.SERVICE, strStatus);
+				
 				if(Restaurant.yourOrder != 0 && !Restaurant.open) btnOrder.setEnabled(false);
 				else btnOrder.setEnabled(true);
 			}

@@ -1,4 +1,5 @@
 // imports
+import java.beans.Customizer;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 /**
@@ -58,6 +59,7 @@ public class Restaurant {
 			// variable delay
 			TimeUnit.MILLISECONDS.sleep((long) (speedVar / speedMultiplier));
 			if(open) {
+				// admit new customers
 				if((rng.nextInt(speedCustomer) + 1) % speedCustomer == 0) {			// random chance for customer 
 					MyGUI.GUI.signal(Service.SERVICE, String.format("A customer walks in.\n"));
 					c = new Customer();
@@ -66,51 +68,53 @@ public class Restaurant {
 					MyGUI.GUI.signal(Service.CASHIER, String.format("There is now %d customer(s) in line\n", serviceLine.size()));
 				}
 			}
-				if((rng.nextInt(speedOrder) + 1) % speedOrder == 0) {	// handling of queue
-					// check if we have any customers
-					c = serviceLine.peek();
-					if(c==null) {
-						if(open) MyGUI.GUI.signal(Service.CASHIER, String.format("Cashier is ready but no one is waiting.\n"));
-					} else {
-						// handle customer
-						MyGUI.GUI.signal(Service.CASHIER, "Customer is ready to order:\n");
-						// generate random customer order
-						if(c.orderNumber == 0) c.GenerateOrder(menu);
-						// print it out
-						MyGUI.GUI.signal(Service.CASHIER, c.PrintOrder());
-						// service customer
-						if(c.orderNumber == yourOrder) {
-							MyGUI.GUI.signal(Service.MISC, "You give the clerk your order and pay her $" + c.getCost() + ". And now you wait");
-						} else MyGUI.GUI.signal(Service.CASHIER, "The customer pays for his order and thanks the cashier.\n");
-						orderLine.insert(new Link (serviceLine.dequeue()));
+			if((rng.nextInt(speedOrder) + 1) % speedOrder == 0) {	// handling of queue
+				// check if we have any customers
+				c = serviceLine.peek();
+				if(c==null) {
+					if(open) MyGUI.GUI.signal(Service.CASHIER, String.format("Cashier is ready but no one is waiting.\n"));
+				} else {
+					// handle customer
+					MyGUI.GUI.signal(Service.CASHIER, "Customer is ready to order:\n");
+					// generate random customer order
+					if(c.orderNumber == 0) c.GenerateOrder(menu);
+					// print it out
+					MyGUI.GUI.signal(Service.CASHIER, c.PrintOrder());
+					// service customer
+					if(c.orderNumber == yourOrder) {
+						MyGUI.GUI.signal(Service.MISC, "You give the clerk your order and pay her $" + c.getCost() + ". And now you wait");
+					} else MyGUI.GUI.signal(Service.CASHIER, "The customer pays for his order and thanks the cashier.\n");
+					orderLine.insert(new Link (serviceLine.dequeue()));
+				}
+			}
+			// do staff jobs
+			orderLine = service.doJobs(orderLine);
+			
+			// service customers waiting for their orders
+			Link iterator = orderLine.getFirst();
+			while(iterator != null) {
+				c = (Customer) iterator.getData();
+				if(c != null && c.orderDone) {
+					if(c.orderNumber == yourOrder) {	// you are special
+						String toString = "You walk up to the counter and check your finished order:\n";
+						toString += c.PrintOrder();
+						toString += "Everything seems to be in order. You thank the clerk and exit.";
+						MyGUI.GUI.signal(Service.MISC, toString);
+						// re-enable order button
+						MyGUI.GUI.btnOrder.setEnabled(true);
+					} else {							// they are not
+						MyGUI.GUI.signal(Service.SERVICE, String.format("Order #%d is claimed and the customer leaves.\n", c.orderNumber));
 					}
-				}
-				// do staff jobs
-				orderLine = service.doJobs(orderLine);
-				
-				// service customers waiting for their orders
-				Link iterator = orderLine.getFirst();
-				while(iterator != null) {
-					c = (Customer) iterator.getData();
-					if(c != null && c.orderDone) {
-						if(c.orderNumber == yourOrder) {	// you are special
-							String toString = "You walk up to the counter and check your finished order:\n";
-							toString += c.PrintOrder();
-							toString += "Everything seems to be in order. You thank the clerk and exit.";
-							MyGUI.GUI.signal(Service.MISC, toString);
-							// re-enable order button
-							MyGUI.GUI.btnOrder.setEnabled(true);
-						} else {							// they are not
-							MyGUI.GUI.signal(Service.SERVICE, String.format("Order #%d is claimed and the customer leaves.\n", c.orderNumber));
-						}
-						// banish hungry customer(with food)
-						orderLine.delete(iterator);
-						MyGUI.GUI.signal(Service.SERVICE, String.format("There is now %d customer(s) waiting for their order\n", orderLine.countNodes()));
-						// line has changed, so start at beginning
-						iterator = orderLine.getFirst();
-					} else iterator = iterator.next;
-				}
+					// banish hungry customer(with food)
+					orderLine.delete(iterator);
+					MyGUI.GUI.signal(Service.SERVICE, String.format("There is now %d customer(s) waiting for their order\n", orderLine.countNodes()));
+					// line has changed, so start at beginning
+					iterator = orderLine.getFirst();
+					if(!open && iterator == null) {
+						MyGUI.GUI.signal(Service.SERVICE, String.format("The last customer leaves. The restaurant is now closed.\n"));
+					}
+				} else iterator = iterator.next;
 			}
 		}
 	}
-
+}
