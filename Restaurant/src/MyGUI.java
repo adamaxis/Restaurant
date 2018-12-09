@@ -1,5 +1,6 @@
 // imports
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
@@ -27,8 +28,8 @@ public class MyGUI extends Thread {
 	// window size constants
 	final static int FRAME_WIDTH = 1300;
 	final static int FRAME_HEIGHT = 480;
-	final static int DIALOG_WIDTH = 400;
-	final static int DIALOG_HEIGHT = 440;
+	final static int DIALOG_WIDTH = 450;
+	final static int DIALOG_HEIGHT = 520;
 	
 	// window status
 	static boolean open = false;
@@ -235,7 +236,7 @@ public class MyGUI extends Thread {
 				// update labels
 				lblProfit.setText(String.format("Profit $%.2f", Restaurant.profit));
 				lblSpeed.setText(String.format("Current speed: %dx", Restaurant.speedMultiplier));
-			} else System.out.printf(message);
+			} else if(service != Service.MISC) System.out.printf(message);
 		}
 	}
 
@@ -249,7 +250,7 @@ public class MyGUI extends Thread {
 		
 		// initialize interface elements
 		JButton btnAdd, btnRemove, btnConfirm;
-		JList<String> jlMenu, jlOrder;
+		JList<String> jlPrice, jlMenu, jlOrder;
 		JPanel panelInterface, panelMenu, panelOrder;
 		
 		// constructor
@@ -268,18 +269,25 @@ public class MyGUI extends Thread {
 			btnConfirm = setJButton("Confirm order", false);
 			
 			// set JLists
-			jlOrder = setJList();
+			jlOrder = setJList(null);
 			
 			// populate jlMenu with restaurant menu
-			jlMenu = setJList();
-			DefaultListModel<String> dlm = new DefaultListModel<String>();
+			jlPrice = setJList(new Dimension(400, 50));
+			jlMenu = setJList(null);
+			DefaultListModel<String> dlm= new DefaultListModel<String>();
+			DefaultListModel<String> dlmPrice = new DefaultListModel<String>();
 			for(int i = 1; i < Restaurant.menu.countNodes(); i++){
 				dlm.addElement(Restaurant.menu.menuToFoodItem(i).getName());
+				dlmPrice.addElement("$" + Double.toString(Restaurant.menu.menuToFoodItem(i).getCost()));
 			}
+			jlPrice.setModel(dlmPrice);
+			jlPrice.setEnabled(false);
+			jlPrice.setBackground(Color.BLUE);
 			jlMenu.setModel(dlm);
 			
 			// add panels to panels
-			panelMenu.add(jlMenu);			
+			panelMenu.add(jlPrice);
+			panelMenu.add(jlMenu);	
 			panelMenu.add(btnAdd);
 			panelOrder.add(jlOrder);
 			panelOrder.add(btnRemove);
@@ -296,10 +304,11 @@ public class MyGUI extends Thread {
 		 * @return (JList<String>) reference to new object
 		 *  setJList() - uniformly sets JLists
 		 */
-		JList<String> setJList() {
+		JList<String> setJList(Dimension d) {
 			JList<String> jl = new JList<String>();
 			jl.addListSelectionListener(this);
-			jl.setSize(new Dimension(400, 200));
+			if(d != null) jl.setSize(d);
+			else jl.setSize(new Dimension(400, 200));
 			jl.setModel(new DefaultListModel<String>());
 			return jl;
 		}
@@ -324,7 +333,7 @@ public class MyGUI extends Thread {
 		 */
 		JPanel setJPanel(String txt) {
 			JPanel jp = new JPanel();
-			jp.setPreferredSize(new Dimension(150, 330));
+			jp.setPreferredSize(new Dimension(200, 420));
 			jp.setBorder(BorderFactory.createTitledBorder(txt));
 			return jp;
 		}
@@ -339,6 +348,12 @@ public class MyGUI extends Thread {
 		            // add jlMenu's selected items to jlOrder
 		            DefaultListModel<String> dlm = (DefaultListModel<String>) jlOrder.getModel();
 		            for (int i = 0; i < selectedIndices.length; i++) {
+		                // length check
+		                if(dlm.getSize() >= Menu.MAX_ORDER_ITEMS) {
+		                	GUI.signal(Service.MISC, "You've reached maximum order size. Remove something first.");
+		    				btnAdd.setEnabled(false);
+		    				return;
+		                }
 		                dlm.addElement(jlMenu.getModel().getElementAt(selectedIndices[i]));
 		            }
 		        }
@@ -351,7 +366,8 @@ public class MyGUI extends Thread {
 		            DefaultListModel<String> dlm = (DefaultListModel<String>) jlOrder.getModel();
 		            for (int i = selectedIndices.length - 1; i >= 0; i--) {
 		                dlm.removeElementAt(selectedIndices[i]);
-		            }   
+		            }
+		            btnAdd.setEnabled(true);
 		        }
 				// button check
 				if(jlOrder.getModel().getSize() == 0) {

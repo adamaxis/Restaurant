@@ -61,18 +61,23 @@ public class Restaurant {
 					c = new Customer();
 					// add them to queue
 					serviceLine.enqueue(c);
-					MyGUI.GUI.signal(Service.SERVICE, String.format("There is now %d customer(s) in line\n", serviceLine.size()));
+					MyGUI.GUI.signal(Service.CASHIER, String.format("There is now %d customer(s) in line\n", serviceLine.size()));
 				} else if((rng.nextInt(speedOrder) + 1) % speedOrder == 0) {	// handling of queue
 					// check if we have any customers
 					c = serviceLine.peek();
 					if(c==null) {
-						MyGUI.GUI.signal(Service.SERVICE, String.format("Staff is ready but no one is waiting.\n"));
+						MyGUI.GUI.signal(Service.CASHIER, String.format("Cashier is ready but no one is waiting.\n"));
 					} else {
+						// handle customer
+						MyGUI.GUI.signal(Service.CASHIER, "Customer is ready to order:\n");
 						// generate random customer order
 						if(c.orderNumber == 0) c.GenerateOrder(menu);
 						// print it out
 						MyGUI.GUI.signal(Service.CASHIER, c.PrintOrder());
 						// service customer
+						if(c.orderNumber == yourOrder) {
+							MyGUI.GUI.signal(Service.MISC, "You give the clerk your order and pay her $" + c.getCost() + ". And now you wait");
+						} else MyGUI.GUI.signal(Service.CASHIER, "The customer pays for his order and thanks the cashier.\n");
 						orderLine.insert(new Link (serviceLine.dequeue()));
 					}
 				}

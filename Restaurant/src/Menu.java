@@ -7,6 +7,7 @@
 public class Menu extends LinkedList {
 	// static members
 	static final int MENU_ITEMS = 10;
+	static final int MAX_ORDER_ITEMS = 20;
 	// members
 	private int itemTotal = 0;
 	
