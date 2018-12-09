@@ -11,12 +11,12 @@ public class Service {
 	// kitchen stations
 	final static int GRILL = 1;
 	final static int FRYER = 2;
-	final static int OVEN = 4;
-	final static int DRINK = 5;
-	final static int SHAKE = 6;
-	final static int CASHIER = 7;
-	final static int SERVICE = 8;
-	final static int MISC = 9;
+	final static int OVEN = 3;
+	final static int DRINK = 4;
+	final static int SHAKE = 5;
+	final static int CASHIER = 6;
+	final static int SERVICE = 7;
+	final static int MISC = 8;
 	
 	// food states
 	final static int FOOD_STATE_FRESH = 0;
@@ -30,6 +30,7 @@ public class Service {
 	// members
 	int atGrill;
 	int atFryer;
+	int atOven;
 	int atDrink;
 	int atShake;
 	int atCashier;
@@ -43,9 +44,10 @@ public class Service {
 	 * constructor
 	 */
 	public Service() {
-		numEmployees = 6;	// later, this will be random
+		numEmployees = 7;	// later, this will be random
 		atGrill=0;
 		atFryer=0;
+		atOven=0;
 		atDrink=0;
 		atShake=0;
 		atCashier=0;
@@ -68,28 +70,27 @@ public class Service {
 				empList[i].setJob(CASHIER);
 				atCashier=1;
 				MyGUI.GUI.signal(CASHIER, String.format("Employee#%d moves to the cashier.\n", empList[i].getNum()));
-			}
-			else if(atGrill==0) {
+			} else if(atGrill==0) {
 				empList[i].setJob(GRILL);
 				atGrill=1;
 				MyGUI.GUI.signal(GRILL, String.format("Employee#%d moves to the grill.\n", empList[i].getNum()));
-			}
-			else if(atFryer==0) {
+			} else if(atFryer==0) {
 				empList[i].setJob(FRYER);
 				atFryer=1;
 				MyGUI.GUI.signal(FRYER, String.format("Employee#%d moves to the fryer.\n", empList[i].getNum()));
-			}
-			else if(atDrink==0) {
+			} else if(atOven==0) {
+				empList[i].setJob(OVEN);
+				atOven=1;
+				MyGUI.GUI.signal(OVEN, String.format("Employee#%d moves to the oven.\n", empList[i].getNum()));
+			} else if(atDrink==0) {
 				empList[i].setJob(DRINK);
 				atDrink=1;
 				MyGUI.GUI.signal(DRINK, String.format("Employee#%d moves to the drink machine.\n", empList[i].getNum()));
-			}
-			else if(atShake==0) {
+			} else if(atShake==0) {
 				empList[i].setJob(SHAKE);
 				atShake=1;
 				MyGUI.GUI.signal(SHAKE, String.format("Employee#%d moves to the shake machine.\n", empList[i].getNum()));
-			}
-			else if(atMisc==0) {
+			} else if(atMisc==0) {
 				empList[i].setJob(MISC);
 				atMisc=1;
 				MyGUI.GUI.signal(SERVICE, String.format("Employee#%d moves to cleanup.\n", empList[i].getNum()));

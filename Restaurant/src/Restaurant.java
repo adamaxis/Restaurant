@@ -38,6 +38,8 @@ public class Restaurant {
 		// initialize GUI
 		Thread threadGUI = new MyGUI();
 		threadGUI.start();
+		// wait for GUI
+		TimeUnit.MILLISECONDS.sleep(2000);
 		
 		// initialize globals
 		serviceLine = new Queue();
@@ -62,11 +64,13 @@ public class Restaurant {
 					// add them to queue
 					serviceLine.enqueue(c);
 					MyGUI.GUI.signal(Service.CASHIER, String.format("There is now %d customer(s) in line\n", serviceLine.size()));
-				} else if((rng.nextInt(speedOrder) + 1) % speedOrder == 0) {	// handling of queue
+				}
+			}
+				if((rng.nextInt(speedOrder) + 1) % speedOrder == 0) {	// handling of queue
 					// check if we have any customers
 					c = serviceLine.peek();
 					if(c==null) {
-						MyGUI.GUI.signal(Service.CASHIER, String.format("Cashier is ready but no one is waiting.\n"));
+						if(open) MyGUI.GUI.signal(Service.CASHIER, String.format("Cashier is ready but no one is waiting.\n"));
 					} else {
 						// handle customer
 						MyGUI.GUI.signal(Service.CASHIER, "Customer is ready to order:\n");
@@ -109,5 +113,4 @@ public class Restaurant {
 			}
 		}
 	}
-}
 
