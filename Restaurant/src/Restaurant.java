@@ -63,7 +63,7 @@ public class Restaurant {
 				if((rng.nextInt(speedCustomer) + 1) % speedCustomer == 0) {			// random chance for customer 
 					MyGUI.GUI.signal(Service.SERVICE, String.format("A customer walks in.\n"));
 					c = new Customer();
-					// add them to queue
+					// add them to queue	
 					serviceLine.enqueue(c);
 					MyGUI.GUI.signal(Service.CASHIER, String.format("There is now %d customer(s) in line\n", serviceLine.size()));
 				}
