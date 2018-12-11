@@ -55,7 +55,7 @@ public class MyGUI extends Thread {
 		private static final long serialVersionUID = 1L;
 		// initialize interface
 		static JTextField txtSpeed;
-		static JLabel lblProfit, lblSpeed;
+		static JLabel lblProfit, lblSpeed, lblPreparing;
 		static JButton btnOrder, btnSpeed, btnOpen;
 		static TextArea txtGrill, txtFryer, txtOven, txtDrink, txtShake, txtService, txtCashier;
 		static JPanel panelInterface, panelGrill, panelFryer, panelOven, panelDrink, panelShake, panelService, panelCashier;
@@ -97,6 +97,7 @@ public class MyGUI extends Thread {
 			btnOpen.addActionListener(this);
 			
 			// set labels
+			lblPreparing = new JLabel("Status:");
 			lblProfit = new JLabel(String.format("Profit $%.2f", Restaurant.profit));
 			lblSpeed = new JLabel(String.format("Current speed: %dx", Restaurant.speedMultiplier));
 			txtSpeed = new JTextField(Integer.toString(Restaurant.speedMultiplier), 2);
@@ -109,6 +110,7 @@ public class MyGUI extends Thread {
 			panelInterface.add(panelDrink);
 			panelInterface.add(panelShake);
 			panelInterface.add(panelCashier);
+			panelInterface.add(lblPreparing);
 			panelInterface.add(btnOpen);
 			panelInterface.add(btnSpeed);
 			panelInterface.add(txtSpeed);
@@ -244,8 +246,15 @@ public class MyGUI extends Thread {
 				ta.setCaretPosition(ta.getText().length()-1);
 				
 				// update labels
+				String stationStatus = "<html>Station status:<br>";
+				stationStatus += String.format("Grill: %d items<br>Fryer:%d items<br>", Restaurant.service.itemsOnGrill, Restaurant.service.itemsInFryer);
+				stationStatus += String.format("Oven: %d items<br>Drink machine:%d items<br>", Restaurant.service.itemsInOven, Restaurant.service.itemsAtDrinkFountain);
+				stationStatus += String.format("Shake machine: %d items</html>", Restaurant.service.itemsAtShakeMachine);
+				
+				lblPreparing.setText(stationStatus);
 				lblProfit.setText(String.format("Profit $%.2f", Restaurant.profit));
 				lblSpeed.setText(String.format("Current speed: %dx", Restaurant.speedMultiplier));
+				
 			} else if(service != Service.MISC) System.out.printf(message);
 		}
 	}

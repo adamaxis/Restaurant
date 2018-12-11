@@ -29,10 +29,15 @@ public class Service {
 	
 	// members
 	int atGrill;
+	int itemsOnGrill;
 	int atFryer;
+	int itemsInFryer;
 	int atOven;
+	int itemsInOven;
 	int atDrink;
+	int itemsAtDrinkFountain;
 	int atShake;
+	int itemsAtShakeMachine;
 	int atCashier;
 	int atMisc;
 	int numEmployees;
@@ -46,10 +51,15 @@ public class Service {
 	public Service() {
 		numEmployees = 7;	// later, this will be random
 		atGrill=0;
+		itemsOnGrill=0;
 		atFryer=0;
+		itemsInFryer=0;
 		atOven=0;
+		itemsInOven=0;
 		atDrink=0;
+		itemsAtDrinkFountain=0;
 		atShake=0;
+		itemsAtShakeMachine=0;
 		atCashier=0;
 		atMisc=0;
 		// initialize employees
@@ -217,18 +227,23 @@ public class Service {
 		fi.prepState = FOOD_STATE_0;
 		switch(fi.type) {
 			case FoodItem.TYPE_GRILL:
+				itemsOnGrill++;
 				MyGUI.GUI.signal(GRILL, String.format("A fresh %s is thrown on the grill.\n", fi.getFrozenName()));
 				break;
 			case FoodItem.TYPE_FRYER:
+				itemsInFryer++;
 				MyGUI.GUI.signal(FRYER, String.format("A staffer drops some %s into the fryer.\n", fi.getFrozenName()));
 				break;
 			case FoodItem.TYPE_OVEN:
+				itemsInOven++;
 				MyGUI.GUI.signal(OVEN, String.format("A staffer throws a %s into the oven\n", fi.getFrozenName()));
 				break;
 			case FoodItem.TYPE_DRINK:
+				itemsAtDrinkFountain++;
 				MyGUI.GUI.signal(DRINK, String.format("A kitchen staffer brings a %s to the fountain.\n", fi.getFrozenName()));
 				break;
 			case FoodItem.TYPE_SHAKE:
+				itemsAtShakeMachine++;
 				MyGUI.GUI.signal(SHAKE, String.format("A kitchen staffer carries a %s over to the shake machine.\n", fi.getFrozenName()));
 				break;
 		}
@@ -341,17 +356,22 @@ public class Service {
 			switch(fi.type) {
 				case FoodItem.TYPE_GRILL:
 					MyGUI.GUI.signal(GRILL, String.format("The %s is boxed and ready to go.\n", fi.getName()));
+					itemsOnGrill--;
 					break;
 				case FoodItem.TYPE_FRYER:
+					itemsInFryer--;
 					MyGUI.GUI.signal(FRYER, String.format("With a dash of salt, the %s are ready to go.\n", fi.getName()));
 					break;
 				case FoodItem.TYPE_OVEN:
+					itemsInOven--;
 					MyGUI.GUI.signal(OVEN, String.format("The %s is wrapped up, ready to go.\n", fi.getName()));
 					break;
 				case FoodItem.TYPE_DRINK:
+					itemsAtDrinkFountain--;
 					MyGUI.GUI.signal(DRINK, String.format("Staff pop a lid and pluck a straw in the %s.\n", fi.getName()));
 					break;
 				case FoodItem.TYPE_SHAKE:
+					itemsAtShakeMachine--;
 					MyGUI.GUI.signal(SHAKE, String.format("Staff pop a lid and dip a straw in the delicious %s.\n", fi.getName()));
 					break;
 			}
