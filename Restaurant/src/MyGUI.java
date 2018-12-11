@@ -250,8 +250,8 @@ public class MyGUI extends Thread {
 				stationStatus += String.format("Grill: %d items<br>Fryer:%d items<br>", Restaurant.service.itemsOnGrill, Restaurant.service.itemsInFryer);
 				stationStatus += String.format("Oven: %d items<br>Drink machine:%d items<br>", Restaurant.service.itemsInOven, Restaurant.service.itemsAtDrinkFountain);
 				stationStatus += String.format("Shake machine: %d items</html>", Restaurant.service.itemsAtShakeMachine);
-				
 				lblPreparing.setText(stationStatus);
+				
 				lblProfit.setText(String.format("Profit $%.2f", Restaurant.profit));
 				lblSpeed.setText(String.format("Current speed: %dx", Restaurant.speedMultiplier));
 				
